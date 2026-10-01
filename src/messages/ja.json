@@ -1,12 +1,8 @@
 {
   "nav": {
-    "brand": "jinukeu",
+    "brand": "hugdochi",
     "draft": "Draft",
     "github": "GitHub"
-  },
-  "hero": {
-    "title": "イ・ジヌクの技術ブログ",
-    "subtitle": "Android開発の経験とインサイトを共有します"
   },
   "posts": {
     "empty": {
@@ -35,16 +31,14 @@
   },
   "footer": {
     "backToTop": "トップへ戻る",
-    "brand": "Jinukeu Blog",
-    "description": "Androidエンジニア イ・ジヌクの技術ブログ"
+    "brand": "hugdochi"
   },
   "author": {
-    "name": "Luke",
-    "role": "Androidエンジニア"
+    "name": "jinwook"
   },
   "meta": {
-    "siteTitle": "Jinukeu Blog",
+    "siteTitle": "hugdochi",
     "siteDescription": "AndroidエンジニアのKotlin、Java、Android開発の経験とインサイトを共有する技術ブログです。",
-    "ogDescription": "Androidエンジニア イ・ジヌクの技術ブログ"
+    "ogDescription": "Android開発の技術ブログ"
   }
 }

@@ -1,12 +1,8 @@
 {
   "nav": {
-    "brand": "jinukeu",
+    "brand": "hugdochi",
     "draft": "Draft",
     "github": "GitHub"
-  },
-  "hero": {
-    "title": "이진욱의 기술 블로그",
-    "subtitle": "Android 개발 경험과 인사이트를 공유합니다"
   },
   "posts": {
     "empty": {
@@ -35,16 +31,14 @@
   },
   "footer": {
     "backToTop": "맨 위로",
-    "brand": "Jinukeu Blog",
-    "description": "안드로이드 개발자 이진욱의 기술 블로그"
+    "brand": "hugdochi"
   },
   "author": {
-    "name": "이진욱",
-    "role": "안드로이드 개발자"
+    "name": "jinwook"
   },
   "meta": {
-    "siteTitle": "Jinukeu Blog",
-    "siteDescription": "안드로이드 개발자 이진욱의 기술 블로그. Kotlin, Java, Android 개발 경험과 인사이트를 공유합니다.",
-    "ogDescription": "안드로이드 개발자 이진욱의 기술 블로그"
+    "siteTitle": "hugdochi",
+    "siteDescription": "안드로이드 개발 기술 블로그. Kotlin, Java, Android 개발 경험과 인사이트를 공유합니다.",
+    "ogDescription": "안드로이드 개발 기술 블로그"
   }
 }

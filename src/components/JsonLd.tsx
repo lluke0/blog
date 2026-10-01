@@ -42,7 +42,7 @@ export function BlogPostJsonLd({
     url: url,
     publisher: {
       '@type': 'Organization',
-      name: 'Jinukeu Blog',
+      name: 'hugdochi',
       logo: {
         '@type': 'ImageObject',
         url: 'https://yourdomain.com/logo.png',
@@ -81,9 +81,10 @@ interface WebsiteJsonLdProps {
   name: string;
   description: string;
   url: string;
+  author: string;
 }
 
-export function WebsiteJsonLd({ name, description, url }: WebsiteJsonLdProps) {
+export function WebsiteJsonLd({ name, description, url, author }: WebsiteJsonLdProps) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -92,7 +93,7 @@ export function WebsiteJsonLd({ name, description, url }: WebsiteJsonLdProps) {
     url: url,
     author: {
       '@type': 'Person',
-      name: '이진욱',
+      name: author,
       url: 'https://github.com/jinukeu',
     },
   };

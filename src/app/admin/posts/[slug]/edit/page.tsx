@@ -81,7 +81,7 @@ export default function EditPostPage({ params }: PageProps) {
         excerpt: excerpt || content.slice(0, 100) + '...',
         mainCategories,
         subCategories,
-        author: '이진욱',
+        author: 'jinwook',
         thumbnail: thumbnail || undefined,
       };
 
@@ -125,7 +125,7 @@ export default function EditPostPage({ params }: PageProps) {
           <div className="flex items-center justify-between h-[59px]">
             <div className="flex items-center space-x-4">
               <Link href="/" className="text-xl font-bold text-neutral-900 dark:text-white">
-                jinukeu.log
+                hugdochi
               </Link>
               <span className="text-neutral-400 dark:text-gray-600">|</span>
               <span className="text-neutral-600 dark:text-gray-400">발행된 글 편집</span>

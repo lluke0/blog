@@ -54,7 +54,7 @@ keyTakeaways: string[] (핵심 인사이트 배열, AI가 인용하기 좋은 �
 ```
 
 ### Routing Structure
-- `/` - Homepage with post grid (추천/전체 filters)
+- `/` - Homepage with post list (추천/전체 filters)
 - `/blog/[slug]` - Individual post pages with blurred navigation
 
 ### Theme System

@@ -26,7 +26,7 @@ export default function Icon() {
           borderRadius: '20%',
         }}
       >
-        J
+        H
       </div>
     ),
     {

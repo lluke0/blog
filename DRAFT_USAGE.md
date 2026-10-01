@@ -142,7 +142,7 @@ import 'highlight.js/styles/github-dark.css'; // 다른 테마로 변경 가능
 [src/app/admin/drafts/new/page.tsx](src/app/admin/drafts/new/page.tsx)와 [src/app/admin/drafts/[slug]/edit/page.tsx](src/app/admin/drafts/[slug]/edit/page.tsx)에서:
 
 ```typescript
-author: '이진욱', // 여기를 변경
+author: 'jinwook', // 여기를 변경
 ```
 
 ## 📚 참고 자료

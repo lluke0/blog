@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Jinukeu Blog",
-    template: "%s | Jinukeu Blog"
+    default: "hugdochi",
+    template: "%s | hugdochi"
   },
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"),
 };

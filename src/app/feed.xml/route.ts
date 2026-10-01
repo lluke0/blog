@@ -19,8 +19,8 @@ export async function GET(request: NextRequest) {
   const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Jinukeu Blog</title>
-    <description>Tech blog by Jinwook Lee</description>
+    <title>hugdochi</title>
+    <description>Android development tech blog</description>
     <link>${baseUrl}/${locale}</link>
     <atom:link href="${baseUrl}/feed.xml?locale=${locale}" rel="self" type="application/rss+xml"/>
     <language>${langMap[locale] || 'ko-KR'}</language>

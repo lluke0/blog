@@ -1,13 +1,12 @@
 'use client';
 
-import Image from "next/image";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useEffect, useState } from "react";
 import { Category } from "@/types/blog";
 import { WebsiteJsonLd } from "@/components/JsonLd";
 import { CategoryTabs, CategoryPills } from "@/components/ui/CategoryTabs";
-import { PostCardSkeleton } from "@/components/ui/Skeleton";
-import { HeroSection } from "@/components/HeroSection";
+import { PostListItemSkeleton } from "@/components/ui/Skeleton";
+import { PostListItem } from "@/components/PostListItem";
 import { Footer } from "@/components/Footer";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { Link } from "@/i18n/navigation";
@@ -88,18 +87,13 @@ export default function Home() {
     return true;
   });
 
-  const dateLocaleMap: Record<string, string> = {
-    ko: 'ko-KR',
-    en: 'en-US',
-    ja: 'ja-JP',
-  };
-
   return (
     <>
       <WebsiteJsonLd
-        name="Jinukeu Blog"
+        name={t('meta.siteTitle')}
         description={t('meta.siteDescription')}
         url={process.env.NEXT_PUBLIC_BASE_URL || "https://yourdomain.com"}
+        author={t('author.name')}
       />
 
       <div className="min-h-screen bg-background">
@@ -138,14 +132,8 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Hero Section */}
-        <HeroSection
-          title={t('hero.title')}
-          subtitle={t('hero.subtitle')}
-        />
-
         {/* Main Content */}
-        <main className="max-w-content mx-auto px-6 md:px-8 pb-12">
+        <main className="max-w-content mx-auto px-6 md:px-8 pt-12 md:pt-16 pb-12">
           {/* Category Tabs */}
           <div className="mb-10">
             <CategoryTabs
@@ -171,105 +159,42 @@ export default function Home() {
             </div>
           )}
 
-          {/* Article Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {loading ? (
-              <>
-                {[1, 2, 3, 4].map((i) => (
-                  <PostCardSkeleton key={i} />
-                ))}
-              </>
-            ) : filteredPosts.length > 0 ? (
-              filteredPosts.map((post) => (
-                <article
-                  key={post.slug}
-                  className="group border border-border rounded-lg overflow-hidden card-hover bg-card"
-                >
-                  <Link href={`/blog/${post.slug}`} className="block">
-                    {/* Thumbnail */}
-                    {post.thumbnail ? (
-                      <div className="aspect-[16/9] relative bg-muted overflow-hidden">
-                        <Image
-                          src={post.thumbnail}
-                          alt={post.title}
-                          fill
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
-                          quality={85}
-                        />
-                      </div>
-                    ) : (
-                      <div className="aspect-[16/9] bg-muted flex items-center justify-center">
-                        <span className="text-muted-foreground text-4xl">
-                          {post.title.charAt(0)}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Content */}
-                    <div className="p-5">
-                      {/* Categories */}
-                      {(post.mainCategories || post.subCategories) && (
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          {post.mainCategories?.slice(0, 1).map((catId) => {
-                            const category = mainCategories.find((c) => c.id === catId);
-                            return category ? (
-                              <span
-                                key={catId}
-                                className="px-2 py-0.5 text-xs bg-foreground/10 text-foreground rounded"
-                              >
-                                {category.name}
-                              </span>
-                            ) : null;
-                          })}
-                        </div>
-                      )}
-
-                      {/* Title */}
-                      <h2 className="text-lg font-semibold text-foreground mb-2 line-clamp-2 leading-snug tracking-tight group-hover:text-foreground/80 transition-colors">
-                        {post.title}
-                      </h2>
-
-                      {/* Excerpt */}
-                      <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
-                        {post.excerpt}
-                      </p>
-
-                      {/* Meta */}
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <time dateTime={post.date}>
-                          {new Date(post.date).toLocaleDateString(dateLocaleMap[locale] || 'ko-KR', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric'
-                          })}
-                        </time>
-                        {post.readTime && (
-                          <>
-                            <span>·</span>
-                            <span>{post.readTime}</span>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
-                </article>
-              ))
-            ) : (
-              <div className="col-span-full text-center py-20">
-                <div className="text-5xl mb-6 opacity-50">∅</div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">
-                  {selectedMainCategory !== 'all' || selectedSubCategory !== 'all'
-                    ? t('posts.empty.filtered')
-                    : t('posts.empty.default')}
-                </h3>
-                <p className="text-muted-foreground max-w-md mx-auto">
-                  {selectedMainCategory !== 'all' || selectedSubCategory !== 'all'
-                    ? t('posts.empty.filteredDescription')
-                    : t('posts.empty.defaultDescription')}
-                </p>
-              </div>
-            )}
-          </div>
+          {/* Article List */}
+          {loading ? (
+            <ul className="border-t border-border" aria-hidden="true">
+              {[1, 2, 3, 4].map((i) => (
+                <PostListItemSkeleton key={i} />
+              ))}
+            </ul>
+          ) : filteredPosts.length > 0 ? (
+            <ul className="border-t border-border">
+              {filteredPosts.map((post) => {
+                const category = mainCategories.find((c) => c.id === post.mainCategories?.[0]);
+                return (
+                  <PostListItem
+                    key={post.slug}
+                    post={post}
+                    categoryName={category?.name}
+                    locale={locale}
+                  />
+                );
+              })}
+            </ul>
+          ) : (
+            <div className="text-center py-20">
+              <div className="text-5xl mb-6 opacity-50">∅</div>
+              <h3 className="text-xl font-semibold text-foreground mb-3">
+                {selectedMainCategory !== 'all' || selectedSubCategory !== 'all'
+                  ? t('posts.empty.filtered')
+                  : t('posts.empty.default')}
+              </h3>
+              <p className="text-muted-foreground max-w-md mx-auto">
+                {selectedMainCategory !== 'all' || selectedSubCategory !== 'all'
+                  ? t('posts.empty.filteredDescription')
+                  : t('posts.empty.defaultDescription')}
+              </p>
+            </div>
+          )}
         </main>
 
         <Footer />

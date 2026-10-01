@@ -33,10 +33,7 @@ export function Footer() {
 
         {/* Brand */}
         <div className="text-center mb-10">
-          <h3 className="text-xl font-bold text-foreground mb-2">{t('brand')}</h3>
-          <p className="text-muted-foreground text-sm">
-            {t('description')}
-          </p>
+          <h3 className="text-xl font-bold text-foreground">{t('brand')}</h3>
         </div>
 
         {/* Social Links */}
@@ -71,7 +68,7 @@ export function Footer() {
 
         {/* Copyright */}
         <p className="text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} jinukeu
+          © {new Date().getFullYear()} {t('brand')}
         </p>
       </div>
     </footer>

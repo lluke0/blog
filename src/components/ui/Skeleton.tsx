@@ -35,37 +35,25 @@ const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
 
 Skeleton.displayName = 'Skeleton';
 
-// 포스트 카드 스켈레톤 - 그리드 레이아웃용
-function PostCardSkeleton() {
+// 포스트 목록 행 스켈레톤 - 리스트 레이아웃용 (ul 안에서 사용)
+function PostListItemSkeleton() {
   return (
-    <div className="border border-border rounded-lg overflow-hidden bg-card">
-      {/* 썸네일 영역 */}
-      <Skeleton className="aspect-[16/9] w-full" variant="rounded" />
+    <li className="border-b border-border py-8 space-y-3">
+      {/* 제목 */}
+      <Skeleton className="h-7 w-3/4" />
 
-      {/* 콘텐츠 영역 */}
-      <div className="p-5 space-y-4">
-        {/* 카테고리 */}
-        <Skeleton className="h-5 w-16 rounded" />
-
-        {/* 제목 */}
-        <div className="space-y-2">
-          <Skeleton className="h-5 w-full" />
-          <Skeleton className="h-5 w-3/4" />
-        </div>
-
-        {/* 본문 */}
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-5/6" />
-        </div>
-
-        {/* 메타 정보 */}
-        <div className="flex items-center gap-2 pt-2">
-          <Skeleton className="h-3 w-20" />
-          <Skeleton className="h-3 w-12" />
-        </div>
+      {/* 본문 */}
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-5/6" />
       </div>
-    </div>
+
+      {/* 메타 정보 */}
+      <div className="flex items-center gap-2 pt-1">
+        <Skeleton className="h-3 w-12" />
+        <Skeleton className="h-3 w-24" />
+      </div>
+    </li>
   );
 }
 
@@ -94,4 +82,4 @@ function AvatarSkeleton({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
   return <Skeleton className={sizeStyles[size]} variant="circular" />;
 }
 
-export { Skeleton, PostCardSkeleton, TextSkeleton, AvatarSkeleton };
+export { Skeleton, PostListItemSkeleton, TextSkeleton, AvatarSkeleton };

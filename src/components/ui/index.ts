@@ -13,7 +13,7 @@ export { Badge } from './Badge';
 export type { BadgeProps } from './Badge';
 
 // Skeleton
-export { Skeleton, PostCardSkeleton, TextSkeleton, AvatarSkeleton } from './Skeleton';
+export { Skeleton, PostListItemSkeleton, TextSkeleton, AvatarSkeleton } from './Skeleton';
 
 // Category
 export { CategoryTabs, CategoryPills, CategoryBadge } from './CategoryTabs';

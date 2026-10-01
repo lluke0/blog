@@ -3,7 +3,7 @@ import { getAllPosts } from '@/lib/markdown';
 import { locales, Locale } from '@/i18n/config';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://blog.jinukeu.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com';
 
   const entries: MetadataRoute.Sitemap = [];
 

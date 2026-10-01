@@ -73,7 +73,7 @@ export const BlogPostCard: Story = {
         </p>
       </CardContent>
       <CardFooter className="text-xs text-gray-500 dark:text-gray-400">
-        <span>이진욱</span>
+        <span>jinwook</span>
       </CardFooter>
     </Card>
   ),

@@ -1,12 +1,8 @@
 {
   "nav": {
-    "brand": "jinukeu",
+    "brand": "hugdochi",
     "draft": "Draft",
     "github": "GitHub"
-  },
-  "hero": {
-    "title": "Jinwook's Tech Blog",
-    "subtitle": "Sharing Android development experiences and insights"
   },
   "posts": {
     "empty": {
@@ -35,16 +31,14 @@
   },
   "footer": {
     "backToTop": "Back to top",
-    "brand": "Jinukeu Blog",
-    "description": "Tech blog by Jinwook Lee, Android developer"
+    "brand": "hugdochi"
   },
   "author": {
-    "name": "Luke",
-    "role": "Android Developer"
+    "name": "jinwook"
   },
   "meta": {
-    "siteTitle": "Jinukeu Blog",
-    "siteDescription": "Tech blog by Jinwook Lee, Android developer. Sharing experiences and insights on Kotlin, Java, and Android development.",
-    "ogDescription": "Tech blog by Jinwook Lee, Android developer"
+    "siteTitle": "hugdochi",
+    "siteDescription": "Android development tech blog. Sharing experiences and insights on Kotlin, Java, and Android development.",
+    "ogDescription": "Android development tech blog"
   }
 }

@@ -55,7 +55,8 @@ keyTakeaways: string[] (핵심 인사이트 배열, AI가 인용하기 좋은 �
 
 ### Routing Structure
 - `/` - Homepage with post list (추천/전체 filters)
-- `/blog/[slug]` - Individual post pages with blurred navigation
+- `/blog/[slug]` - Individual post pages (sticky header with reading progress, fixed TOC on xl+)
+- Both pages share `SiteHeader` and `Footer` (`src/components/`)
 
 ### Theme System
 - **Provider**: `next-themes` with system preference support
@@ -74,8 +75,8 @@ All components use CSS variable-based theming for automatic dark mode support.
 
 ### Styling Approach
 - **Framework**: Tailwind CSS with `@tailwindcss/typography` for blog content
-- **Font**: SUIT Variable (Korean web font from CDN in `layout.tsx`)
-- **Color Palette**: Emerald/green (`primary-*`) as primary brand color
+- **Font**: Wanted Sans Variable for UI and headings (`font-sans`, CDN link in `layout.tsx`); MaruBuri for post body text (`font-serif`, `@font-face` in `globals.css`, applied to `.prose-blog` p/li); code uses the system `ui-monospace` stack
+- **Color Palette**: Monochrome (neutral grays); `primary` is near-black in light mode and inverted in dark mode
 - **Dark Mode**: Class-based (`darkMode: 'class'` in Tailwind config)
 
 ### Key Files

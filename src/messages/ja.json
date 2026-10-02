@@ -13,6 +13,10 @@
     },
     "notFound": "記事が見つかりません"
   },
+  "post": {
+    "toc": "目次",
+    "readingProgress": "読書の進捗"
+  },
   "theme": {
     "light": "ライトモードに切り替え",
     "dark": "ダークモードに切り替え"
@@ -40,5 +44,9 @@
     "siteTitle": "hugdochi",
     "siteDescription": "AndroidエンジニアのKotlin、Java、Android開発の経験とインサイトを共有する技術ブログです。",
     "ogDescription": "Android開発の技術ブログ"
+  },
+  "notFound": {
+    "description": "お探しのページが見つかりませんでした。",
+    "home": "ホームに戻る"
   }
 }

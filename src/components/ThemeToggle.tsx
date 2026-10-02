@@ -13,7 +13,7 @@ export function ThemeToggle({
   darkLabel = 'Switch to dark mode',
 }: ThemeToggleProps = {}) {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -21,16 +21,17 @@ export function ThemeToggle({
 
   if (!mounted) {
     return (
-      <div className="w-10 h-10 rounded-lg bg-foreground/5 animate-pulse-soft" />
+      <div className="w-10 h-10 rounded-lg bg-foreground/5" aria-hidden="true" />
     );
   }
 
-  const isDark = theme === 'dark';
+  // theme이 'system'이어도 실제로 적용된 테마를 기준으로 판단한다
+  const isDark = resolvedTheme === 'dark';
 
   return (
     <button
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="relative w-10 h-10 rounded-lg bg-foreground/5 hover:bg-foreground/10 transition-colors duration-200 flex items-center justify-center group btn-press"
+      className="icon-button relative"
       aria-label={isDark ? lightLabel : darkLabel}
     >
       {/* Sun icon - shown in dark mode */}

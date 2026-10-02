@@ -77,6 +77,7 @@ export function getAllPosts(locale: Locale = defaultLocale): (BlogPostMeta & { s
         mainCategories: data.mainCategories,
         subCategories: data.subCategories,
         author: data.author,
+        readTime: data.readTime,
         thumbnail: data.thumbnail,
         seoTitle: data.seoTitle,
         seoDescription: data.seoDescription,

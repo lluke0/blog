@@ -13,6 +13,10 @@
     },
     "notFound": "Post not found"
   },
+  "post": {
+    "toc": "Contents",
+    "readingProgress": "Reading progress"
+  },
   "theme": {
     "light": "Switch to light mode",
     "dark": "Switch to dark mode"
@@ -40,5 +44,9 @@
     "siteTitle": "hugdochi",
     "siteDescription": "Android development tech blog. Sharing experiences and insights on Kotlin, Java, and Android development.",
     "ogDescription": "Android development tech blog"
+  },
+  "notFound": {
+    "description": "The page you are looking for does not exist.",
+    "home": "Back to home"
   }
 }

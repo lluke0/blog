@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface TocItem {
   id: string;
@@ -13,6 +14,7 @@ interface TableOfContentsProps {
 }
 
 export function TableOfContents({ contentSelector = '.prose-blog' }: TableOfContentsProps) {
+  const t = useTranslations('post');
   const [headings, setHeadings] = useState<TocItem[]>([]);
   const [activeId, setActiveId] = useState<string>('');
 
@@ -91,9 +93,9 @@ export function TableOfContents({ contentSelector = '.prose-blog' }: TableOfCont
   }
 
   return (
-    <nav className="max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-hide" aria-label="목차">
-      <h2 className="text-sm font-semibold text-foreground mb-4 tracking-wide uppercase">
-        목차
+    <nav className="max-h-[calc(100vh-9rem)] overflow-y-auto scrollbar-hide" aria-label={t('toc')}>
+      <h2 className="text-sm font-semibold text-foreground mb-4">
+        {t('toc')}
       </h2>
       <ul className="space-y-2 pb-8">
           {headings.map((heading) => (

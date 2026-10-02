@@ -4,6 +4,7 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { Locale } from '@/i18n/config';
+import { socialLinks } from '@/lib/site';
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
       : locale === 'ja'
         ? ["ブログ", "開発", "Android", "Kotlin", "Java", "モバイル", "技術ブログ"]
         : ["blog", "development", "Android", "Kotlin", "Java", "mobile", "tech blog"],
-    authors: [{ name: tAuthor('name'), url: "https://github.com/jinukeu" }],
+    authors: [{ name: tAuthor('name'), url: socialLinks.github }],
     creator: tAuthor('name'),
     openGraph: {
       type: "website",

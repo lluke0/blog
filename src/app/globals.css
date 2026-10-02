@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 마루 부리 (네이버 한글 폰트, 블로그 본문용)
+   배포 CSS는 굵기마다 이름이 달라 굵은 글씨가 가짜 굵게로 그려지므로, 한 이름 아래 굵기별로 등록한다 */
+@font-face {
+  font-family: 'MaruBuri';
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2) format('woff2'),
+       url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff) format('woff');
+}
+@font-face {
+  font-family: 'MaruBuri';
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.woff2) format('woff2'),
+       url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.woff) format('woff');
+}
+@font-face {
+  font-family: 'MaruBuri';
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff2) format('woff2'),
+       url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff) format('woff');
+}
+
 /* NProgress Loading Bar Styles - Monochrome */
 #nprogress {
   pointer-events: none;
@@ -17,11 +41,6 @@
   height: 2px;
 }
 
-/* 다크 모드에서도 동일한 스타일 유지 */
-.dark #nprogress .bar {
-  background: hsl(var(--foreground));
-}
-
 #nprogress .peg {
   display: block;
   position: absolute;
@@ -33,29 +52,7 @@
   transform: rotate(3deg) translate(0px, -4px);
 }
 
-/* Custom utilities for line clamping */
 @layer utilities {
-  .line-clamp-1 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-  }
-
-  .line-clamp-2 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-
-  .line-clamp-3 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-  }
-
   /* 스크롤바 숨기기 */
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -66,22 +63,34 @@
   }
 }
 
+@layer components {
+  /* 헤더의 아이콘 버튼 (GitHub, 테마, 언어) 공통 스타일 */
+  .icon-button {
+    @apply w-10 h-10 rounded-lg flex items-center justify-center text-foreground
+           bg-foreground/5 hover:bg-foreground/10 transition-colors duration-200;
+  }
+  .icon-button:active {
+    transform: scale(0.98);
+  }
+}
+
 /* Blog Post Prose Styling - Monochrome */
 @layer components {
   .prose-blog {
     @apply prose prose-lg max-w-none;
 
-    /* Headings */
+    /* Headings - 본문(18px)과 확실히 구분되는 크기 차이 */
     & h1, & h2, & h3, & h4, & h5, & h6 {
       @apply font-bold text-foreground tracking-tight;
+      word-break: keep-all;
     }
-    & h1 { @apply text-3xl mt-12 mb-6 leading-tight; }
-    & h2 { @apply text-2xl mt-10 mb-5 leading-snug; }
-    & h3 { @apply text-xl mt-8 mb-4 leading-snug; }
+    & h1 { @apply text-[2rem] mt-14 mb-6 leading-tight; }
+    & h2 { @apply text-[1.75rem] mt-14 mb-5 leading-snug; }
+    & h3 { @apply text-[1.375rem] mt-10 mb-4 leading-snug; }
 
-    /* Paragraphs */
+    /* Paragraphs - 본문은 마루 부리, 제목·코드·표는 Wanted Sans/모노 유지 */
     & p {
-      @apply text-[18px] leading-[1.75] text-foreground mb-7;
+      @apply font-serif text-[18px] leading-[1.75] text-foreground mb-7;
       letter-spacing: -0.01em;
       word-break: keep-all;
     }
@@ -120,7 +129,7 @@
     /* Lists */
     & ul, & ol { @apply my-8; }
     & li {
-      @apply text-[18px] leading-[1.75] text-foreground mb-2;
+      @apply font-serif text-[18px] leading-[1.75] text-foreground mb-2;
     }
     & li::marker { @apply text-muted-foreground; }
 
@@ -146,7 +155,7 @@
   padding: 0.2em 0.4em;
   border-radius: 4px;
   font-size: 85%;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-family: theme('fontFamily.mono');
   color: hsl(var(--foreground));
   background-color: hsl(var(--foreground) / 0.08);
 }
@@ -200,6 +209,8 @@
 /* Smooth scrolling for anchor links */
 html {
   scroll-behavior: smooth;
+  /* 페이지 길이에 따라 스크롤바가 생겼다 사라져도 헤더 위치가 흔들리지 않게 한다 */
+  scrollbar-gutter: stable;
 }
 
 /* Enhanced focus styles for accessibility */
@@ -221,41 +232,7 @@ html {
   }
 }
 
-/* Skip to content link for accessibility */
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-  padding: 8px 16px;
-  z-index: 100;
-  transition: top 0.2s;
-}
-
-.skip-link:focus {
-  top: 0;
-}
-
-/* Focus ring utility classes */
-.focus-ring {
-  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
-}
-
-/* Screen reader only utility */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-/* Enhanced Glass morphism effects for modern design */
+/* Enhanced Glass morphism effects (Modal, Toast) */
 .backdrop-blur-xl {
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
@@ -276,88 +253,12 @@ html {
   -webkit-backdrop-filter: blur(6px) saturate(120%);
 }
 
-/* Modern navigation blur effect - Monochrome */
+/* Navigation blur effect - Monochrome */
 .nav-blur {
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(250, 250, 250, 0.9);
+  background: hsl(var(--background) / 0.9);
   border-bottom: 1px solid hsl(var(--border));
-  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.04);
-}
-
-/* Toss-style animations and interactions */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.4s ease-out;
-}
-
-/* Enhanced hover animations */
-.hover-lift {
-  transition: all 0.2s ease-out;
-}
-
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15);
-}
-
-/* Monochrome gradient backgrounds */
-.gradient-bg {
-  background: hsl(var(--foreground));
-}
-
-.gradient-border {
-  background: hsl(var(--foreground) / 0.1);
-  padding: 1px;
-  border-radius: 8px;
-}
-
-.gradient-border > * {
-  background: hsl(var(--background));
-  border-radius: 7px;
-}
-
-/* Smooth transitions for all elements */
-* {
-  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
 /* Refined Monochrome Color System */
@@ -417,113 +318,4 @@ html {
     --input: 0 0% 20%;
     --ring: 0 0% 96%;
   }
-}
-
-/* Dark mode navigation blur */
-.dark .nav-blur {
-  backdrop-filter: blur(20px) saturate(180%) brightness(90%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(90%);
-  background: rgba(23, 23, 23, 0.9);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.4);
-}
-
-/* Dark mode gradient border */
-.dark .gradient-border > * {
-  background: hsl(var(--background));
-}
-
-/* Typography Enhancement - Monochrome optimized */
-.heading-xl {
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-
-.heading-lg {
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.15;
-}
-
-.heading-md {
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-
-.body-lg {
-  font-size: 18px;
-  line-height: 1.75;
-  letter-spacing: -0.01em;
-  word-break: keep-all;
-}
-
-.meta-text {
-  font-size: 14px;
-  color: hsl(var(--muted-foreground));
-  letter-spacing: 0.02em;
-}
-
-/* Page transition animations */
-@keyframes page-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-page-in {
-  animation: page-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Card hover effect - minimal lift */
-.card-hover {
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.2s ease,
-              box-shadow 0.2s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-2px);
-  border-color: hsl(var(--foreground) / 0.2);
-  box-shadow: 0 4px 12px hsl(var(--foreground) / 0.08);
-}
-
-.dark .card-hover:hover {
-  box-shadow: 0 4px 12px hsl(0 0% 0% / 0.3);
-}
-
-/* Button press effect */
-.btn-press:active {
-  transform: scale(0.98);
-}
-
-/* TOC highlight animation */
-.toc-highlight {
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.toc-highlight.active {
-  opacity: 1;
-  transform: translateX(4px);
-}
-
-/* Reading progress bar */
-.reading-progress {
-  transition: width 0.1s linear;
-}
-
-/* Subtle pulse animation for hero divider */
-@keyframes pulse-soft-opacity {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.15; }
-}
-
-.animate-pulse-soft-opacity {
-  animation: pulse-soft-opacity 3s ease-in-out infinite;
 }

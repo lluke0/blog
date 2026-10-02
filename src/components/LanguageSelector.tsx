@@ -25,8 +25,15 @@ export function LanguageSelector() {
         setOpen(false);
       }
     }
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') setOpen(false);
+    }
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   const handleLocaleChange = (newLocale: Locale) => {
@@ -38,25 +45,29 @@ export function LanguageSelector() {
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen(!open)}
-        className="w-10 h-10 rounded-lg bg-foreground/5 hover:bg-foreground/10 transition-colors duration-200 flex items-center justify-center text-xs font-semibold text-foreground btn-press"
+        className="icon-button text-xs font-semibold"
         aria-label={t('label')}
+        aria-haspopup="menu"
+        aria-expanded={open}
       >
         {localeLabels[locale]}
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-36 rounded-lg border border-border bg-background shadow-lg overflow-hidden z-50">
+        <div role="menu" className="absolute right-0 mt-2 w-40 rounded-lg border border-border bg-background shadow-lg overflow-hidden z-50">
           {locales.map((loc) => (
             <button
               key={loc}
+              role="menuitem"
               onClick={() => handleLocaleChange(loc)}
-              className={`w-full px-4 py-2.5 text-left text-sm transition-colors ${
+              className={`w-full flex items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors ${
                 loc === locale
                   ? 'bg-foreground/10 text-foreground font-medium'
                   : 'text-muted-foreground hover:bg-foreground/5 hover:text-foreground'
               }`}
             >
-              {t(loc)}
+              <span className="w-6 text-xs font-semibold text-muted-foreground">{localeLabels[loc]}</span>
+              <span>{t(loc)}</span>
             </button>
           ))}
         </div>

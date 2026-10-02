@@ -10,20 +10,19 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: [
-          'Pretendard Variable',
-          'Pretendard',
+          'Wanted Sans Variable',
+          'Wanted Sans',
           '-apple-system',
           'BlinkMacSystemFont',
           'system-ui',
-          'Roboto',
-          'Helvetica Neue',
-          'Segoe UI',
           'Apple SD Gothic Neo',
           'Noto Sans KR',
           'Malgun Gothic',
           'sans-serif'
         ],
-        mono: ['var(--font-geist-mono)', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+        // 블로그 본문 전용
+        serif: ['MaruBuri', 'AppleMyungjo', 'Noto Serif KR', 'serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -73,7 +72,7 @@ module.exports = {
       },
       maxWidth: {
         'content': '60rem',      // 960px - 메인 콘텐츠 영역
-        'prose': '56rem',        // 896px - 블로그 글 영역
+        'prose': '46rem',        // 736px - 블로그 글 영역 (패딩 제외 본문 약 672px)
         'wide': '72rem',         // 1152px - 넓은 레이아웃
       },
       spacing: {

@@ -1,4 +1,5 @@
 import Script from 'next/script';
+import { socialLinks } from '@/lib/site';
 
 interface BlogPostJsonLdProps {
   title: string;
@@ -34,7 +35,7 @@ export function BlogPostJsonLd({
     author: {
       '@type': 'Person',
       name: author,
-      url: 'https://github.com/jinukeu',
+      url: socialLinks.github,
     },
     datePublished: datePublished,
     dateModified: dateModified || datePublished,
@@ -94,7 +95,7 @@ export function WebsiteJsonLd({ name, description, url, author }: WebsiteJsonLdP
     author: {
       '@type': 'Person',
       name: author,
-      url: 'https://github.com/jinukeu',
+      url: socialLinks.github,
     },
   };
 

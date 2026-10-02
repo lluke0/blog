@@ -1,6 +1,5 @@
 'use client';
 
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { useEffect, useState } from "react";
 import { Category } from "@/types/blog";
 import { WebsiteJsonLd } from "@/components/JsonLd";
@@ -8,8 +7,8 @@ import { CategoryTabs, CategoryPills } from "@/components/ui/CategoryTabs";
 import { PostListItemSkeleton } from "@/components/ui/Skeleton";
 import { PostListItem } from "@/components/PostListItem";
 import { Footer } from "@/components/Footer";
-import { LanguageSelector } from "@/components/LanguageSelector";
-import { Link } from "@/i18n/navigation";
+import { SiteHeader } from "@/components/SiteHeader";
+import { useDelayedVisibility } from "@/hooks/useDelayedVisibility";
 import { useLocale, useTranslations } from 'next-intl';
 
 interface Post {
@@ -33,6 +32,8 @@ export default function Home() {
   const [selectedMainCategory, setSelectedMainCategory] = useState<string>('recommended');
   const [selectedSubCategory, setSelectedSubCategory] = useState<string>('all');
   const [loading, setLoading] = useState(true);
+  // 0.5초 안에 끝나는 로딩은 스켈레톤 없이 넘어가고, 한 번 보인 스켈레톤은 최소 2초 유지한다
+  const showSkeleton = useDelayedVisibility(loading, { delay: 500, minDuration: 2000 });
 
   useEffect(() => {
     fetchData();
@@ -87,6 +88,18 @@ export default function Home() {
     return true;
   });
 
+  // 글이 하나도 없으면 필터와 관계없이 '첫 글을 기다리는 중' 안내를 보여준다
+  const isFiltered =
+    posts.length > 0 && (selectedMainCategory !== 'all' || selectedSubCategory !== 'all');
+
+  // 기본 선택 탭인 '추천'을 맨 앞에 두고, 그 뒤에 '전체'와 나머지 카테고리를 둔다
+  const recommended = mainCategories.find((cat) => cat.id === 'recommended');
+  const tabs = [
+    ...(recommended ? [recommended] : []),
+    { id: 'all', name: t('categories.all') },
+    ...mainCategories.filter((cat) => cat.id !== 'recommended'),
+  ];
+
   return (
     <>
       <WebsiteJsonLd
@@ -97,59 +110,25 @@ export default function Home() {
       />
 
       <div className="min-h-screen bg-background">
-        {/* Monochrome Header */}
-        <header className="border-b border-border sticky top-0 z-50 nav-blur">
-          <div className="max-w-content mx-auto px-6 md:px-8 py-4">
-            <div className="flex items-center justify-between">
-              <Link href="/" className="flex items-center">
-                <span className="text-2xl font-bold text-foreground tracking-tighter">{t('nav.brand')}</span>
-              </Link>
-              <div className="flex items-center gap-5">
-                {process.env.NODE_ENV === 'development' && (
-                  // eslint-disable-next-line @next/next/no-html-link-for-pages
-                  <a
-                    href="/admin/drafts"
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {t('nav.draft')}
-                  </a>
-                )}
-                <a
-                  href="https://github.com/jinukeu"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label={t('nav.github')}
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-                  </svg>
-                </a>
-                <ThemeToggle lightLabel={t('theme.light')} darkLabel={t('theme.dark')} />
-                <LanguageSelector />
-              </div>
-            </div>
-          </div>
-        </header>
+        <SiteHeader />
 
         {/* Main Content */}
         <main className="max-w-content mx-auto px-6 md:px-8 pt-12 md:pt-16 pb-12">
           {/* Category Tabs */}
-          <div className="mb-10">
+          <div className={subCategories.length > 0 ? 'mb-6' : 'mb-2'}>
             <CategoryTabs
-              categories={mainCategories}
+              categories={tabs}
               selectedCategory={selectedMainCategory}
               onSelect={(categoryId) => {
                 setSelectedMainCategory(categoryId);
                 setSelectedSubCategory('all');
               }}
-              allLabel={t('categories.all')}
             />
           </div>
 
           {/* Sub-category Pills */}
           {subCategories.length > 0 && (
-            <div className="mb-10">
+            <div className="mb-2">
               <CategoryPills
                 categories={subCategories}
                 selectedCategory={selectedSubCategory}
@@ -160,14 +139,17 @@ export default function Home() {
           )}
 
           {/* Article List */}
-          {loading ? (
-            <ul className="border-t border-border" aria-hidden="true">
+          {showSkeleton ? (
+            <ul aria-hidden="true">
               {[1, 2, 3, 4].map((i) => (
                 <PostListItemSkeleton key={i} />
               ))}
             </ul>
+          ) : loading ? (
+            // 스켈레톤을 띄우기 전(0.5초 이내)에는 빈 상태 문구가 잠깐 보이지 않도록 비워 둔다
+            null
           ) : filteredPosts.length > 0 ? (
-            <ul className="border-t border-border">
+            <ul>
               {filteredPosts.map((post) => {
                 const category = mainCategories.find((c) => c.id === post.mainCategories?.[0]);
                 return (
@@ -182,14 +164,16 @@ export default function Home() {
             </ul>
           ) : (
             <div className="text-center py-20">
-              <div className="text-5xl mb-6 opacity-50">∅</div>
-              <h3 className="text-xl font-semibold text-foreground mb-3">
-                {selectedMainCategory !== 'all' || selectedSubCategory !== 'all'
-                  ? t('posts.empty.filtered')
-                  : t('posts.empty.default')}
-              </h3>
+              <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-foreground/5 text-muted-foreground">
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-semibold text-foreground mb-3">
+                {isFiltered ? t('posts.empty.filtered') : t('posts.empty.default')}
+              </h2>
               <p className="text-muted-foreground max-w-md mx-auto">
-                {selectedMainCategory !== 'all' || selectedSubCategory !== 'all'
+                {isFiltered
                   ? t('posts.empty.filteredDescription')
                   : t('posts.empty.defaultDescription')}
               </p>

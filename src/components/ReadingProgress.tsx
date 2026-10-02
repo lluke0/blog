@@ -1,8 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
+// 헤더 하단 경계선에 붙어서 그려진다 (부모가 relative여야 함).
+// 페이지 이동용 NProgress 바는 화면 맨 위에 있으므로 서로 겹치지 않는다.
 export function ReadingProgress() {
+  const t = useTranslations('post');
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -24,13 +28,13 @@ export function ReadingProgress() {
 
   return (
     <div
-      className="fixed top-0 left-0 h-0.5 bg-foreground z-50 reading-progress"
+      className="absolute left-0 -bottom-px h-0.5 bg-foreground transition-[width] duration-100 ease-linear"
       style={{ width: `${progress}%` }}
       role="progressbar"
       aria-valuenow={Math.round(progress)}
       aria-valuemin={0}
       aria-valuemax={100}
-      aria-label="읽기 진행률"
+      aria-label={t('readingProgress')}
     />
   );
 }

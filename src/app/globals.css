@@ -108,7 +108,7 @@
     /* Blockquotes - Minimal monochrome style */
     & blockquote {
       @apply relative pl-6 pr-6 py-4 my-8 not-italic rounded-sm;
-      border-left: 2px solid hsl(var(--foreground) / 0.15);
+      border-left: none;
       background: hsl(var(--foreground) / 0.02);
       quotes: none;
     }

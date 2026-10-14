@@ -143,10 +143,19 @@
     & table { @apply w-full my-8 border-collapse; }
     & th {
       @apply bg-muted px-4 py-3 text-left font-semibold text-foreground
-             border-b border-border;
+             border-b border-border whitespace-nowrap;
     }
-    & td { @apply px-4 py-3 border-b border-border text-foreground; }
+    & td { @apply px-4 py-3 border-b border-border text-foreground break-keep; }
     & tr:hover td { @apply bg-muted/50; }
+  }
+}
+
+/* Wide tables scroll inside their own box on narrow screens */
+@media (max-width: 767px) {
+  .prose-blog table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
   }
 }
 

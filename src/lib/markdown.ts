@@ -6,6 +6,7 @@ import remarkRehype from 'remark-rehype';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeExternalLinks from 'rehype-external-links';
 import rehypeStringify from 'rehype-stringify';
+import remarkGfm from 'remark-gfm';
 import { BlogPost, BlogPostMeta } from '@/types/blog';
 import { Locale, defaultLocale, locales } from '@/i18n/config';
 
@@ -25,6 +26,7 @@ export async function getPostBySlug(slug: string, locale: Locale = defaultLocale
   const { data, content } = matter(fileContents);
 
   const processedContent = await remark()
+    .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
     .use(rehypeHighlight)

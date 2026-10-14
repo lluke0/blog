@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 360" width="1160" height="360" font-family="Pretendard, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="a-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5F6B7A"/>
+    </marker>
+    <marker id="a-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#D9861A"/>
+    </marker>
+    <marker id="a-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2E7D32"/>
+    </marker>
+    <marker id="a-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#C62828"/>
+    </marker>
+    <marker id="a-indigo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3F51B5"/>
+    </marker>
+  </defs>
+
+  <rect width="1160" height="360" rx="16" fill="#FFFFFF"/>
+
+  <!-- 연결선 -->
+  <!-- 기억 → 화면 인식 -->
+  <path d="M110,131 V75 H286" fill="none" stroke="#D9861A" stroke-width="2.5" marker-end="url(#a-orange)"/>
+  <text x="200" y="64" text-anchor="middle" font-size="13" fill="#B26A0C">화면 메모 · 지난 조작</text>
+
+  <!-- 화면 인식 → 아는 길 → 모르는 구간 -->
+  <path d="M460,75 H506" fill="none" stroke="#5F6B7A" stroke-width="2.5" marker-end="url(#a-gray)"/>
+  <path d="M700,75 H746" fill="none" stroke="#5F6B7A" stroke-width="2.5" marker-end="url(#a-gray)"/>
+
+  <!-- 모르는 구간 → 회귀 테스트 -->
+  <path d="M930,75 H976" fill="none" stroke="#3F51B5" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#a-indigo)"/>
+
+  <!-- 성공: 모르는 구간 → 기억 -->
+  <path d="M790,110 V190 H179" fill="none" stroke="#2E7D32" stroke-width="2.5" marker-end="url(#a-green)"/>
+  <text x="480" y="180" text-anchor="middle" font-size="13" fill="#2E7D32">성공한 이동 경로를 기록</text>
+
+  <!-- 실패: 모르는 구간 → 잠금 -->
+  <path d="M890,110 V246" fill="none" stroke="#C62828" stroke-width="2.5" marker-end="url(#a-red)"/>
+  <text x="902" y="184" font-size="13" fill="#C62828">실패</text>
+
+  <!-- 잠금 → learn -->
+  <path d="M690,285 H624" fill="none" stroke="#C62828" stroke-width="2.5" marker-end="url(#a-red)"/>
+
+  <!-- learn → 기억 -->
+  <path d="M380,285 H110 V253" fill="none" stroke="#D9861A" stroke-width="2.5" marker-end="url(#a-orange)"/>
+  <text x="245" y="276" text-anchor="middle" font-size="13" fill="#B26A0C">화면 메모에 추가</text>
+
+  <!-- 기억 (DB) -->
+  <path d="M45,145 V235 A65,14 0 0 0 175,235 V145" fill="#FFF4E5" stroke="#D9861A" stroke-width="2"/>
+  <ellipse cx="110" cy="145" rx="65" ry="14" fill="#FFE7C2" stroke="#D9861A" stroke-width="2"/>
+  <text x="110" y="196" text-anchor="middle" font-size="18" font-weight="700" fill="#7A4A08">메모리</text>
+  <text x="110" y="218" text-anchor="middle" font-size="12" fill="#9A6A2A" font-family="Menlo, Consolas, monospace">.qa/retriever.db</text>
+
+  <!-- 화면 인식 -->
+  <rect x="290" y="40" width="170" height="70" rx="10" fill="#F5F7FA" stroke="#B8C1CC" stroke-width="1.5"/>
+  <text x="375" y="70" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2933">화면 인식</text>
+  <text x="375" y="92" text-anchor="middle" font-size="12" fill="#5F6B7A" font-family="Menlo, Consolas, monospace">screen-analyze</text>
+
+  <!-- 아는 길 -->
+  <rect x="510" y="40" width="190" height="70" rx="10" fill="#F5F7FA" stroke="#B8C1CC" stroke-width="1.5"/>
+  <text x="605" y="70" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2933">경로를 먼저 계획</text>
+  <text x="605" y="92" text-anchor="middle" font-size="12" fill="#5F6B7A" font-family="Menlo, Consolas, monospace">explore-plan · TRAIL</text>
+
+  <!-- 모르는 구간 -->
+  <rect x="750" y="40" width="180" height="70" rx="10" fill="#F5F7FA" stroke="#B8C1CC" stroke-width="1.5"/>
+  <text x="840" y="70" text-anchor="middle" font-size="16" font-weight="700" fill="#1F2933">조작하고 바로 관찰</text>
+  <text x="840" y="92" text-anchor="middle" font-size="12" fill="#5F6B7A" font-family="Menlo, Consolas, monospace">act</text>
+
+  <!-- 회귀 테스트 -->
+  <rect x="980" y="40" width="150" height="70" rx="10" fill="#EEF0FB" stroke="#3F51B5" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="1055" y="70" text-anchor="middle" font-size="16" font-weight="700" fill="#283593">회귀 테스트</text>
+  <text x="1055" y="92" text-anchor="middle" font-size="12" fill="#3F51B5">완료한 흐름을 .sh 로</text>
+
+  <!-- 실패 잠금 -->
+  <rect x="690" y="250" width="240" height="70" rx="10" fill="#FDECEC" stroke="#E57373" stroke-width="1.5"/>
+  <text x="810" y="280" text-anchor="middle" font-size="16" font-weight="700" fill="#8E1B1B">실패하면 잠금</text>
+  <text x="810" y="302" text-anchor="middle" font-size="12" fill="#B23A3A">원인과 사유를 적어야 풀린다</text>
+
+  <!-- learn -->
+  <rect x="380" y="250" width="240" height="70" rx="10" fill="#FDF6EC" stroke="#D9861A" stroke-width="1.5"/>
+  <text x="500" y="280" text-anchor="middle" font-size="16" font-weight="700" fill="#7A4A08" font-family="Menlo, Consolas, monospace">/retriever:learn</text>
+  <text x="500" y="302" text-anchor="middle" font-size="12" fill="#9A6A2A">한 줄 회피 규칙으로 압축</text>
+</svg>

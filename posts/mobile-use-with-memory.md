@@ -37,14 +37,14 @@ LLM들이 앱을 조작하는 능력(이하 mobile-use라 부름)은 점점 좋�
 
 사람은 앱을 쓰면서 버튼을 누르면 어떤 동작이 일어나는지, 어떤 설정이 어느 화면 안에 있는지를 기억하잖아요? 그런데 대부분의 mobile-use는 화면을 확인하고, 하나를 누르고, 다시 화면을 확인하는 루프를 매번 처음부터 수행합니다.
 
-그래서 메모리를 달아봤어요. 한 번 들어가 본 화면이랑 거기서 한 조작을 DB에 적어 두고, 다음에 같은 화면에 오면 DB부터 조회합니다.
+그래서 메모리를 달아봤어요. 한 번 들어가 본 화면이랑 거기서 한 조작을 DB에 기록하고, 다음에 같은 화면에 오면 DB부터 조회합니다.
 
 성능을 측정해보니, Claude Opus 5.5를 쓴 Maestro MCP보다 최대 **1.9**배, ARTEMIS Flash보다 최대 **2.4**배 빨랐습니다.
 
 
 ## 주의
 
-> **retriever만 이 앱의 기록이 담긴 DB를 가지고 시작했습니다.** 나머지는 메모리 없이 시작했습니다. Claude Code로 돌린 retriever와 Maestro MCP는 Claude Code 자체의 auto memory도 끄고 돌렸습니다.
+> **retriever만 메모리 DB를 가지고 진행했습니다.** Claude Code로 돌린 retriever와 Maestro MCP는 Claude Code 자체의 auto memory도 끄고 돌렸습니다.
 >
 > retriever는 같은 앱의 다른 미션으로 튜닝됐습니다. 벤치 미션은 튜닝이 끝난 뒤에 새로 썼습니다.
 

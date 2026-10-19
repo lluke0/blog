@@ -51,10 +51,14 @@ export default function Home() {
       const categoriesData = await categoriesRes.json();
 
       setPosts(postsData);
-      const translatedMain = (categoriesData.mainCategories || []).map((cat: Category) => ({
-        ...cat,
-        name: t(`categories.${cat.id}` as never) || cat.name,
-      }));
+      // 관리자 화면에서 추가한 카테고리는 번역 키가 없으므로 저장된 이름을 그대로 쓴다
+      const translatedMain = (categoriesData.mainCategories || []).map((cat: Category) => {
+        const key = `categories.${cat.id}` as never;
+        return {
+          ...cat,
+          name: t.has(key) ? t(key) : cat.name,
+        };
+      });
       setMainCategories(translatedMain);
       setSubCategories(categoriesData.subCategories || []);
 

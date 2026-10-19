@@ -34,9 +34,11 @@ export function PostListItem({ post, categoryName, locale }: PostListItemProps) 
             {post.title}
           </h2>
 
-          <p className="mt-2 text-base text-muted-foreground line-clamp-2">
-            {post.excerpt}
-          </p>
+          {post.excerpt && (
+            <p className="mt-2 text-base text-muted-foreground line-clamp-2">
+              {post.excerpt}
+            </p>
+          )}
 
           <div className="mt-4 flex flex-wrap items-center gap-x-2 text-sm text-muted-foreground">
             {meta.map((item, i) => (

@@ -62,8 +62,9 @@ export default function Home() {
       setMainCategories(translatedMain);
       setSubCategories(categoriesData.subCategories || []);
 
-      const hasRecommended = categoriesData.mainCategories?.some(
-        (cat: Category) => cat.id === 'recommended'
+      // 추천 글이 없으면 '추천' 탭이 숨겨지므로 '전체'를 기본으로 선택한다
+      const hasRecommended = (postsData as Post[]).some(
+        (post) => post.mainCategories?.includes('recommended')
       );
 
       if (!hasRecommended) {
@@ -96,12 +97,24 @@ export default function Home() {
   const isFiltered =
     posts.length > 0 && (selectedMainCategory !== 'all' || selectedSubCategory !== 'all');
 
+  // 글이 하나도 없는 카테고리는 탭과 태그 목록에서 숨긴다
+  const visibleMainCategories = mainCategories.filter((cat) =>
+    posts.some((post) => post.mainCategories?.includes(cat.id))
+  );
+  // 소카테고리는 선택한 대카테고리의 글 기준으로 거른다 (해당 글에 소카테고리가 없으면 줄 전체가 사라진다)
+  const postsInMainCategory = posts.filter(
+    (post) => selectedMainCategory === 'all' || post.mainCategories?.includes(selectedMainCategory)
+  );
+  const visibleSubCategories = subCategories.filter((cat) =>
+    postsInMainCategory.some((post) => post.subCategories?.includes(cat.id))
+  );
+
   // 기본 선택 탭인 '추천'을 맨 앞에 두고, 그 뒤에 '전체'와 나머지 카테고리를 둔다
-  const recommended = mainCategories.find((cat) => cat.id === 'recommended');
+  const recommended = visibleMainCategories.find((cat) => cat.id === 'recommended');
   const tabs = [
     ...(recommended ? [recommended] : []),
     { id: 'all', name: t('categories.all') },
-    ...mainCategories.filter((cat) => cat.id !== 'recommended'),
+    ...visibleMainCategories.filter((cat) => cat.id !== 'recommended'),
   ];
 
   return (
@@ -119,7 +132,7 @@ export default function Home() {
         {/* Main Content */}
         <main className="max-w-content mx-auto px-6 md:px-8 pt-12 md:pt-16 pb-12">
           {/* Category Tabs */}
-          <div className={subCategories.length > 0 ? 'mb-6' : 'mb-2'}>
+          <div className={visibleSubCategories.length > 0 ? 'mb-6' : 'mb-2'}>
             <CategoryTabs
               categories={tabs}
               selectedCategory={selectedMainCategory}
@@ -131,10 +144,10 @@ export default function Home() {
           </div>
 
           {/* Sub-category Pills */}
-          {subCategories.length > 0 && (
+          {visibleSubCategories.length > 0 && (
             <div className="mb-2">
               <CategoryPills
-                categories={subCategories}
+                categories={visibleSubCategories}
                 selectedCategory={selectedSubCategory}
                 onSelect={setSelectedSubCategory}
                 allLabel={t('categories.all')}

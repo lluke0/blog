@@ -11,6 +11,9 @@ export default function CategoriesPage() {
   const [loading, setLoading] = useState(true);
   const [editingMain, setEditingMain] = useState<{ id: string; name: string } | null>(null);
   const [editingSub, setEditingSub] = useState<{ id: string; name: string } | null>(null);
+  const [newMainName, setNewMainName] = useState('');
+  const [newSubName, setNewSubName] = useState('');
+  const [adding, setAdding] = useState<'main' | 'sub' | null>(null);
 
   useEffect(() => {
     fetchCategories();
@@ -27,6 +30,70 @@ export default function CategoriesPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAdd = async (type: 'main' | 'sub') => {
+    const name = type === 'main' ? newMainName : newSubName;
+    if (!name.trim()) {
+      alert('카테고리 이름을 입력해주세요.');
+      return;
+    }
+
+    setAdding(type);
+    try {
+      const response = await fetch('/api/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type, name: name.trim() }),
+      });
+
+      if (response.ok) {
+        if (type === 'main') {
+          setNewMainName('');
+        } else {
+          setNewSubName('');
+        }
+        fetchCategories();
+      } else {
+        const error = await response.json();
+        alert(error.error || '추가에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('Error creating category:', error);
+      alert('추가 중 오류가 발생했습니다.');
+    } finally {
+      setAdding(null);
+    }
+  };
+
+  const renderAddForm = (type: 'main' | 'sub') => {
+    const value = type === 'main' ? newMainName : newSubName;
+    const setValue = type === 'main' ? setNewMainName : setNewSubName;
+
+    return (
+      <div className="flex items-center gap-2 mb-4">
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+              e.preventDefault();
+              handleAdd(type);
+            }
+          }}
+          placeholder={type === 'main' ? '새 대카테고리 이름' : '새 소카테고리 이름'}
+          className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white"
+        />
+        <button
+          onClick={() => handleAdd(type)}
+          disabled={adding === type || !value.trim()}
+          className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {adding === type ? '추가 중...' : '추가'}
+        </button>
+      </div>
+    );
   };
 
   const handleUpdateMain = async (id: string, name: string) => {
@@ -196,6 +263,7 @@ export default function CategoriesPage() {
             {/* 대카테고리 */}
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 p-6">
               <h2 className="text-xl font-bold text-neutral-900 dark:text-white mb-4">대카테고리</h2>
+              {renderAddForm('main')}
 
               {mainCategories.length > 0 ? (
                 <div className="space-y-2">
@@ -212,13 +280,13 @@ export default function CategoriesPage() {
                             onChange={(e) =>
                               setEditingMain({ ...editingMain, name: e.target.value })
                             }
-                            className="flex-1 px-3 py-1 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white"
+                            className="flex-1 px-3 py-1 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:text-white"
                             autoFocus
                           />
                           <div className="flex items-center gap-2 ml-3">
                             <button
                               onClick={() => handleUpdateMain(editingMain.id, editingMain.name)}
-                              className="px-3 py-1 text-sm bg-primary-500 text-white rounded hover:bg-primary-600 transition-colors"
+                              className="px-3 py-1 text-sm bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors"
                             >
                               저장
                             </button>
@@ -238,7 +306,7 @@ export default function CategoriesPage() {
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() => setEditingMain({ id: category.id, name: category.name })}
-                              className="px-3 py-1 text-sm text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded transition-colors"
+                              className="px-3 py-1 text-sm text-neutral-900 dark:text-white hover:bg-neutral-100 dark:hover:bg-gray-700 rounded transition-colors"
                             >
                               수정
                             </button>
@@ -266,6 +334,7 @@ export default function CategoriesPage() {
               <h2 className="text-xl font-bold text-neutral-900 dark:text-white mb-4">
                 소카테고리 (태그)
               </h2>
+              {renderAddForm('sub')}
 
               {subCategories.length > 0 ? (
                 <div className="space-y-2">
@@ -280,13 +349,13 @@ export default function CategoriesPage() {
                             type="text"
                             value={editingSub.name}
                             onChange={(e) => setEditingSub({ ...editingSub, name: e.target.value })}
-                            className="flex-1 px-3 py-1 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white"
+                            className="flex-1 px-3 py-1 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:text-white"
                             autoFocus
                           />
                           <div className="flex items-center gap-2 ml-3">
                             <button
                               onClick={() => handleUpdateSub(editingSub.id, editingSub.name)}
-                              className="px-3 py-1 text-sm bg-primary-500 text-white rounded hover:bg-primary-600 transition-colors"
+                              className="px-3 py-1 text-sm bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors"
                             >
                               저장
                             </button>
@@ -306,7 +375,7 @@ export default function CategoriesPage() {
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() => setEditingSub({ id: category.id, name: category.name })}
-                              className="px-3 py-1 text-sm text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded transition-colors"
+                              className="px-3 py-1 text-sm text-neutral-900 dark:text-white hover:bg-neutral-100 dark:hover:bg-gray-700 rounded transition-colors"
                             >
                               수정
                             </button>

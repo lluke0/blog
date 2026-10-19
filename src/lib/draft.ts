@@ -1,8 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { remark } from 'remark';
-import html from 'remark-html';
+import { renderMarkdown } from '@/lib/markdown';
 import { DraftPost, DraftPostMeta } from '@/types/blog';
 
 const draftsDirectory = path.join(process.cwd(), 'drafts');
@@ -26,8 +25,7 @@ export async function getDraftBySlug(slug: string): Promise<DraftPost> {
   const { data, content } = matter(fileContents);
   const stats = fs.statSync(fullPath);
 
-  const processedContent = await remark().use(html).process(content);
-  const contentHtml = processedContent.toString();
+  const contentHtml = await renderMarkdown(content);
 
   return {
     slug,

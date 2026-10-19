@@ -144,7 +144,7 @@ export function ThumbnailUpload({ value, onChange }: ThumbnailUploadProps) {
         className={`
           relative border-2 border-dashed rounded-lg p-4 transition-colors
           ${isDragging
-            ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+            ? 'border-primary bg-neutral-100 dark:bg-gray-800'
             : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
           }
           ${value ? 'p-2' : 'p-8'}
@@ -152,7 +152,7 @@ export function ThumbnailUpload({ value, onChange }: ThumbnailUploadProps) {
       >
         {uploading ? (
           <div className="text-center py-8">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">업로드 중...</p>
           </div>
         ) : value ? (
@@ -197,7 +197,7 @@ export function ThumbnailUpload({ value, onChange }: ThumbnailUploadProps) {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="text-primary-600 hover:text-primary-500 font-medium"
+                className="text-neutral-900 dark:text-white hover:underline font-medium"
               >
                 클릭하여 파일 선택
               </button>

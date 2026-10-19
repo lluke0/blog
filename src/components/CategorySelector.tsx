@@ -136,7 +136,7 @@ export function CategorySelector({
                 type="checkbox"
                 checked={selectedMainCategories.includes(category.id)}
                 onChange={() => handleMainCategoryToggle(category.id)}
-                className="w-4 h-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500"
+                className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
               />
               <span className="text-sm text-neutral-900 dark:text-white">{category.name}</span>
             </label>
@@ -150,9 +150,9 @@ export function CategorySelector({
             value={newMainCategory}
             onChange={(e) => setNewMainCategory(e.target.value)}
             placeholder="새 대카테고리 추가..."
-            className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+            className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white"
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
                 e.preventDefault();
                 handleAddMainCategory();
               }
@@ -161,7 +161,7 @@ export function CategorySelector({
           <button
             onClick={handleAddMainCategory}
             disabled={addingMain || !newMainCategory.trim()}
-            className="px-4 py-2 text-sm bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {addingMain ? '추가 중...' : '추가'}
           </button>
@@ -185,7 +185,7 @@ export function CategorySelector({
                 type="checkbox"
                 checked={selectedSubCategories.includes(category.id)}
                 onChange={() => handleSubCategoryToggle(category.id)}
-                className="w-4 h-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500"
+                className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
               />
               <span className="text-sm text-neutral-900 dark:text-white">{category.name}</span>
             </label>
@@ -199,9 +199,9 @@ export function CategorySelector({
             value={newSubCategory}
             onChange={(e) => setNewSubCategory(e.target.value)}
             placeholder="새 소카테고리 추가..."
-            className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+            className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white"
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
                 e.preventDefault();
                 handleAddSubCategory();
               }
@@ -210,7 +210,7 @@ export function CategorySelector({
           <button
             onClick={handleAddSubCategory}
             disabled={addingSub || !newSubCategory.trim()}
-            className="px-4 py-2 text-sm bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {addingSub ? '추가 중...' : '추가'}
           </button>

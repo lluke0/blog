@@ -49,7 +49,7 @@ export default function NewDraftPage() {
       const frontmatter = {
         title,
         date: publishDate,
-        excerpt: excerpt || content.slice(0, 100) + '...',
+        excerpt: excerpt.trim(),
         mainCategories,
         subCategories,
         author: 'jinwook',
@@ -123,14 +123,14 @@ export default function NewDraftPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="제목"
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white"
             />
             <input
               type="text"
               value={excerpt}
               onChange={(e) => setExcerpt(e.target.value)}
               placeholder="요약 (선택사항)"
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white"
             />
           </div>
 
@@ -142,7 +142,7 @@ export default function NewDraftPage() {
               type="date"
               value={publishDate}
               onChange={(e) => setPublishDate(e.target.value)}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white"
             />
           </div>
 

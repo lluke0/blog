@@ -34,7 +34,7 @@ Admin 페이지: `http://localhost:3000/admin/drafts`
 1. "새 Draft 작성" 버튼 클릭 또는 `/admin/drafts/new` 접속
 2. 제목, 요약, 태그 입력
 3. 마크다운 에디터에서 내용 작성
-   - **실시간 프리뷰**: 오른쪽에서 실시간으로 확인
+   - **실시간 프리뷰**: 툴바의 "미리보기 펴기" 버튼을 누르면 오른쪽에 표시 (기본은 접힘)
    - **이미지 드래그 앤 드롭**: 에디터에 이미지 파일 드래그
    - **클립보드 붙여넣기**: 캡처한 이미지 `Ctrl+V` 또는 `Cmd+V`
 4. "저장" 버튼 클릭
@@ -43,6 +43,7 @@ Admin 페이지: `http://localhost:3000/admin/drafts`
 
 1. Draft 목록에서 "편집" 버튼 클릭
 2. 내용 수정 후 "저장"
+3. Draft 목록에서 "미리보기" 버튼을 누르면 발행된 글과 같은 화면으로 확인 (`/admin/drafts/[slug]/preview`, 저장된 내용 기준)
 
 ### 5. Draft 발행
 
@@ -68,7 +69,7 @@ git push
 ## ✨ 주요 기능
 
 ### 1. 마크다운 에디터
-- **Split View**: 왼쪽 에디터 | 오른쪽 실시간 프리뷰
+- **Split View**: 왼쪽 에디터 | 오른쪽 실시간 프리뷰 (프리뷰는 기본으로 접혀 있고 툴바 버튼으로 펴고 접음)
 - **Syntax Highlighting**: 코드 블록 자동 하이라이팅
 - **GFM 지원**: GitHub Flavored Markdown
 
@@ -131,12 +132,9 @@ git push
 
 ## 🎨 커스터마이징
 
-### 에디터 테마 변경
-[src/components/MarkdownEditor.tsx](src/components/MarkdownEditor.tsx#L5)에서 `highlight.js` 테마 변경:
-
-```typescript
-import 'highlight.js/styles/github-dark.css'; // 다른 테마로 변경 가능
-```
+### 코드 하이라이트 테마 변경
+프리뷰는 발행된 글과 같은 `.prose-blog` 스타일을 쓰고, 코드 하이라이트 테마도 공유합니다.
+[src/components/SyntaxHighlightStyle.tsx](src/components/SyntaxHighlightStyle.tsx)에서 라이트/다크 모드별 `highlight.js` 테마 URL을 변경하세요.
 
 ### 기본 작성자 변경
 [src/app/admin/drafts/new/page.tsx](src/app/admin/drafts/new/page.tsx)와 [src/app/admin/drafts/[slug]/edit/page.tsx](src/app/admin/drafts/[slug]/edit/page.tsx)에서:

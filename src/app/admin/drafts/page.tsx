@@ -109,7 +109,7 @@ export default function DraftsPage() {
             </Link>
             <Link
               href="/admin/drafts/new"
-              className="px-6 py-2 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors"
+              className="px-6 py-2 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors"
             >
               새 Draft 작성
             </Link>
@@ -159,14 +159,20 @@ export default function DraftsPage() {
                   </div>
                   <div className="flex items-center gap-2 ml-4">
                     <Link
+                      href={`/admin/drafts/${draft.slug}/preview`}
+                      className="px-4 py-2 text-sm font-medium text-neutral-900 dark:text-white hover:bg-neutral-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                    >
+                      미리보기
+                    </Link>
+                    <Link
                       href={`/admin/drafts/${draft.slug}/edit`}
-                      className="px-4 py-2 text-sm font-medium text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors"
+                      className="px-4 py-2 text-sm font-medium text-neutral-900 dark:text-white hover:bg-neutral-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                     >
                       편집
                     </Link>
                     <button
                       onClick={() => handlePublish(draft.slug)}
-                      className="px-4 py-2 text-sm font-medium text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors"
+                      className="px-4 py-2 text-sm font-medium text-neutral-900 dark:text-white hover:bg-neutral-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                     >
                       발행
                     </button>
@@ -183,7 +189,21 @@ export default function DraftsPage() {
           </div>
         ) : (
           <div className="text-center py-20">
-            <div className="text-6xl mb-6">📝</div>
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-neutral-100 dark:bg-gray-800">
+              <svg
+                className="h-7 w-7 text-neutral-500 dark:text-gray-400"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.5}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 20h9" />
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" />
+              </svg>
+            </div>
             <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-4">
               Draft가 없습니다
             </h3>
@@ -192,7 +212,7 @@ export default function DraftsPage() {
             </p>
             <Link
               href="/admin/drafts/new"
-              className="inline-block px-6 py-3 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors"
+              className="inline-block px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors"
             >
               새 Draft 작성
             </Link>

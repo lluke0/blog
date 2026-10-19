@@ -112,7 +112,7 @@ export default function PostsPage() {
                         {post.mainCategories?.map((cat) => (
                           <span
                             key={cat}
-                            className="px-3 py-1 text-xs font-semibold bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded"
+                            className="px-3 py-1 text-xs font-semibold bg-neutral-100 dark:bg-gray-700 text-neutral-700 dark:text-gray-300 rounded"
                           >
                             {cat}
                           </span>
@@ -138,7 +138,7 @@ export default function PostsPage() {
                     </Link>
                     <Link
                       href={`/admin/posts/${post.slug}/edit`}
-                      className="px-4 py-2 text-sm font-medium text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors"
+                      className="px-4 py-2 text-sm font-medium text-neutral-900 dark:text-white hover:bg-neutral-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                     >
                       편집
                     </Link>
@@ -164,7 +164,7 @@ export default function PostsPage() {
             </p>
             <Link
               href="/admin/drafts"
-              className="inline-block px-6 py-3 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors"
+              className="inline-block px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors"
             >
               Draft 관리로 이동
             </Link>

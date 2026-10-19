@@ -106,7 +106,7 @@ export function ImageResizer({ src, alt, initialWidth, initialAlign, onResize, o
         <div className="mb-6 flex justify-center overflow-auto max-h-[60vh]">
           <div
             ref={containerRef}
-            className="relative inline-block border-2 border-primary-500 rounded"
+            className="relative inline-block border-2 border-primary rounded"
             style={{
               width: `${Math.min(width, 600)}px`,
               height: `${Math.min(height, 600 * aspectRatio)}px`,
@@ -124,7 +124,7 @@ export function ImageResizer({ src, alt, initialWidth, initialAlign, onResize, o
             {/* 리사이저 핸들 (우측 하단) */}
             <div
               onMouseDown={handleMouseDown}
-              className={`absolute -right-2 -bottom-2 w-4 h-4 bg-primary-500 border-2 border-white rounded-full cursor-nwse-resize shadow-lg ${
+              className={`absolute -right-2 -bottom-2 w-4 h-4 bg-primary border-2 border-white rounded-full cursor-nwse-resize shadow-lg ${
                 isDragging ? 'scale-125' : ''
               } transition-transform`}
             />
@@ -143,7 +143,7 @@ export function ImageResizer({ src, alt, initialWidth, initialAlign, onResize, o
                 onChange={(e) => handleWidthChange(Number(e.target.value))}
                 min="100"
                 max="1200"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white"
               />
             </div>
             <div>
@@ -169,7 +169,7 @@ export function ImageResizer({ src, alt, initialWidth, initialAlign, onResize, o
                 onClick={() => setAlign('left')}
                 className={`flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                   align === 'left'
-                    ? 'bg-primary-500 text-white'
+                    ? 'bg-primary text-primary-foreground'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
@@ -184,7 +184,7 @@ export function ImageResizer({ src, alt, initialWidth, initialAlign, onResize, o
                 onClick={() => setAlign('center')}
                 className={`flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                   align === 'center'
-                    ? 'bg-primary-500 text-white'
+                    ? 'bg-primary text-primary-foreground'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
@@ -199,7 +199,7 @@ export function ImageResizer({ src, alt, initialWidth, initialAlign, onResize, o
                 onClick={() => setAlign('right')}
                 className={`flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                   align === 'right'
-                    ? 'bg-primary-500 text-white'
+                    ? 'bg-primary text-primary-foreground'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
@@ -227,7 +227,7 @@ export function ImageResizer({ src, alt, initialWidth, initialAlign, onResize, o
             </button>
             <button
               onClick={handleSave}
-              className="px-6 py-2 text-sm font-medium bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+              className="px-6 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
             >
               적용
             </button>

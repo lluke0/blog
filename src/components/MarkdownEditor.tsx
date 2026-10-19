@@ -3,9 +3,9 @@
 import { useState, useCallback, useRef, DragEvent, ClipboardEvent, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
-import 'highlight.js/styles/github-dark.css';
 import { ImageResizer } from './ImageResizer';
 
 interface MarkdownEditorProps {
@@ -28,6 +28,7 @@ export function MarkdownEditor({ value, onChange, placeholder }: MarkdownEditorP
   const [selectedImage, setSelectedImage] = useState<SelectedImage | null>(null);
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [videoUrl, setVideoUrl] = useState('');
+  const [showPreview, setShowPreview] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -264,7 +265,7 @@ export function MarkdownEditor({ value, onChange, placeholder }: MarkdownEditorP
     return () => {
       previewElement.removeEventListener('click', handleImageClick);
     };
-  }, []);
+  }, [showPreview]);
 
   // 이미지 크기 조절 후 마크다운 업데이트
   const handleImageResize = (newWidth: number, align: ImageAlign) => {
@@ -337,9 +338,16 @@ export function MarkdownEditor({ value, onChange, placeholder }: MarkdownEditorP
           >
             🔗 YouTube/URL 삽입
           </button>
+          <button
+            onClick={() => setShowPreview((prev) => !prev)}
+            aria-expanded={showPreview}
+            className="ml-auto px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors"
+          >
+            {showPreview ? '미리보기 접기' : '미리보기 펴기'}
+          </button>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 flex-1">
+        <div className={`grid ${showPreview ? 'grid-cols-2' : 'grid-cols-1'} gap-4 flex-1`}>
           {/* 에디터 */}
           <div className="relative h-full">
             <textarea
@@ -351,31 +359,34 @@ export function MarkdownEditor({ value, onChange, placeholder }: MarkdownEditorP
               onDragLeave={handleDragLeave}
               onPaste={handlePaste}
               placeholder={placeholder || '마크다운으로 작성하세요...\n\n이미지/비디오를 드래그 앤 드롭하거나 붙여넣기 할 수 있습니다.\n프리뷰에서 이미지를 클릭하면 크기를 조절할 수 있습니다.'}
-              className={`w-full h-full p-4 font-mono text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none dark:bg-gray-800 dark:text-white dark:border-gray-700 ${
-                isDragging ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20' : 'border-gray-300'
+              className={`w-full h-full p-4 font-mono text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none dark:bg-gray-800 dark:text-white dark:border-gray-700 ${
+                isDragging ? 'border-primary bg-neutral-100 dark:bg-gray-800' : 'border-gray-300'
               }`}
             />
             {isDragging && (
-              <div className="absolute inset-0 flex items-center justify-center bg-primary-50/80 dark:bg-primary-900/40 rounded-lg pointer-events-none">
-                <p className="text-lg font-semibold text-primary-600 dark:text-primary-400">파일을 여기에 놓으세요</p>
+              <div className="absolute inset-0 flex items-center justify-center bg-neutral-100/80 dark:bg-gray-800/80 rounded-lg pointer-events-none">
+                <p className="text-lg font-semibold text-neutral-900 dark:text-white">파일을 여기에 놓으세요</p>
               </div>
             )}
           </div>
 
           {/* 프리뷰 */}
-          <div
-            ref={previewRef}
-            className="h-full overflow-y-auto p-4 border rounded-lg bg-white dark:bg-gray-800 dark:border-gray-700"
-          >
-            <article className="prose prose-neutral dark:prose-invert max-w-none [&_img]:cursor-pointer [&_img]:hover:opacity-80 [&_img]:transition-opacity [&_video]:max-w-full">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeHighlight, rehypeRaw]}
-              >
-                {value || '*프리뷰가 여기에 표시됩니다*'}
-              </ReactMarkdown>
-            </article>
-          </div>
+          {showPreview && (
+            <div
+              ref={previewRef}
+              className="h-full overflow-y-auto px-6 py-8 border rounded-lg bg-background dark:border-gray-700"
+            >
+              {/* 발행된 글 본문(/blog/[slug])과 같은 스타일과 폭으로 렌더링한다 */}
+              <article className="prose-blog mx-auto max-w-[42rem] [&_img]:cursor-pointer [&_img]:hover:opacity-80 [&_img]:transition-opacity [&_video]:max-w-full">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm, remarkBreaks]}
+                  rehypePlugins={[rehypeHighlight, rehypeRaw]}
+                >
+                  {value || '*프리뷰가 여기에 표시됩니다*'}
+                </ReactMarkdown>
+              </article>
+            </div>
+          )}
         </div>
       </div>
 
@@ -403,7 +414,7 @@ export function MarkdownEditor({ value, onChange, placeholder }: MarkdownEditorP
               value={videoUrl}
               onChange={(e) => setVideoUrl(e.target.value)}
               placeholder="https://www.youtube.com/watch?v=..."
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white mb-4"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white mb-4"
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
                   handleVideoModalSubmit();
@@ -422,7 +433,7 @@ export function MarkdownEditor({ value, onChange, placeholder }: MarkdownEditorP
               </button>
               <button
                 onClick={handleVideoModalSubmit}
-                className="px-4 py-2 text-sm font-medium bg-primary-500 text-white rounded hover:bg-primary-600 transition-colors"
+                className="px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors"
               >
                 삽입
               </button>

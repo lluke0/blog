@@ -128,6 +128,10 @@
 
     /* Lists */
     & ul, & ol { @apply my-8; }
+    /* 목록 바로 뒤의 문단은 목록에 붙여서 이어지는 내용으로 보이게 한다
+       (li의 mb-2, 목록의 mb-0, 문단의 mt-3이 겹쳐 최종 간격은 12px) */
+    & ul:has(+ p), & ol:has(+ p) { @apply mb-0; }
+    & ul + p, & ol + p { @apply mt-3; }
     & li {
       @apply font-serif text-[18px] leading-[1.75] text-foreground mb-2;
     }

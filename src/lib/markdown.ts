@@ -7,6 +7,7 @@ import rehypeHighlight from 'rehype-highlight';
 import rehypeExternalLinks from 'rehype-external-links';
 import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks';
 import { BlogPost, BlogPostMeta } from '@/types/blog';
 import { Locale, defaultLocale, locales } from '@/i18n/config';
 
@@ -19,20 +20,27 @@ function getPostsDir(locale: Locale = defaultLocale): string {
   return path.join(postsDirectory, locale);
 }
 
+// 발행된 글과 Draft 미리보기가 같은 HTML을 얻도록 변환 파이프라인을 한 곳에 둔다
+export async function renderMarkdown(content: string): Promise<string> {
+  const processedContent = await remark()
+    .use(remarkGfm)
+    // 문단 안의 단일 개행도 <br>로 렌더링한다 (에디터 프리뷰와 동일)
+    .use(remarkBreaks)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
+    .use(rehypeHighlight)
+    .use(rehypeStringify, { allowDangerousHtml: true })
+    .process(content);
+  return processedContent.toString();
+}
+
 export async function getPostBySlug(slug: string, locale: Locale = defaultLocale): Promise<BlogPost> {
   const dir = getPostsDir(locale);
   const fullPath = path.join(dir, `${slug}.md`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data, content } = matter(fileContents);
 
-  const processedContent = await remark()
-    .use(remarkGfm)
-    .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
-    .use(rehypeHighlight)
-    .use(rehypeStringify, { allowDangerousHtml: true })
-    .process(content);
-  const contentHtml = processedContent.toString();
+  const contentHtml = await renderMarkdown(content);
 
   return {
     slug,

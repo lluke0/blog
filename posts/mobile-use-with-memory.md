@@ -1,15 +1,16 @@
 ---
 title: Mobile-use with Memory
 date: '2026-10-14'
-excerpt: mobile-use에 메모리를 달았더니 Maestro MCP보다 최대 1.9배, ARTEMIS Flash보다 최대 2.4배 빨라졌습니다.
+excerpt: 'mobile-use에 메모리를 달았더니 Maestro MCP보다 최대 1.9배, ARTEMIS Flash보다 최대 2.4배 빨라졌습니다.'
 mainCategories:
   - dev
   - recommended
-subCategories:
-  - sub_1759713206951
+subCategories: []
 readTime: 12분
-seoTitle: "Mobile-use with Memory - Maestro MCP·ARTEMIS와 비교한 LLM 앱 조작 벤치"
-seoDescription: "LLM이 앱을 조작하는 mobile-use에 화면·이동 경로 메모리를 붙인 retriever를 Maestro MCP, ARTEMIS, Jev와 같은 미션으로 비교했습니다. 속도 차이의 원인과 74라운드 튜닝 과정을 공유합니다."
+seoTitle: Mobile-use with Memory - Maestro MCP·ARTEMIS와 비교한 LLM 앱 조작 벤치
+seoDescription: >-
+  LLM이 앱을 조작하는 mobile-use에 화면·이동 경로 메모리를 붙인 retriever를 Maestro MCP, ARTEMIS,
+  Jev와 같은 미션으로 비교했습니다. 속도 차이의 원인과 74라운드 튜닝 과정을 공유합니다.
 seoKeywords:
   - mobile-use
   - retriever
@@ -21,13 +22,16 @@ seoKeywords:
   - Claude Code
   - 벤치마크
   - autoresearch
-summary: "mobile-use 에이전트에 화면과 이동 경로를 기록하는 DB 메모리를 붙인 retriever는 같은 모델의 Maestro MCP보다 1.6배, ARTEMIS Flash보다 1.8배 빨랐고, 차이는 대부분 조작과 관찰을 한 명령으로 합친 구조와 DB에 쌓인 조작 기록에서 나왔다."
+summary: >-
+  mobile-use 에이전트에 화면과 이동 경로를 기록하는 DB 메모리를 붙인 retriever는 같은 모델의 Maestro MCP보다
+  1.6배, ARTEMIS Flash보다 1.8배 빨랐고, 차이는 대부분 조작과 관찰을 한 명령으로 합친 구조와 DB에 쌓인 조작 기록에서
+  나왔다.
 keyTakeaways:
-  - "모델 시간은 거의 같았고 속도 차이는 기기에서 명령이 실행된 시간에서 나왔다"
-  - "조작과 관찰을 한 명령(act)으로 합치면 턴마다 스크린샷을 따로 받는 비용이 사라진다"
-  - "DB에 기록이 많은 미션일수록 Maestro MCP 대비 배율이 1.3배에서 1.9배로 커졌다"
-  - "스킬 문서의 규칙보다 CLI 출력이 다음 조작을 직접 알려 줄 때(TRAIL) 모델 행동이 바뀌었다"
-  - "화면만 보고 채점하면 저장되지 않은 거짓 성공을 놓치므로, 앱의 저장 상태로 판정해야 한다"
+  - 모델 시간은 거의 같았고 속도 차이는 기기에서 명령이 실행된 시간에서 나왔다
+  - 조작과 관찰을 한 명령(act)으로 합치면 턴마다 스크린샷을 따로 받는 비용이 사라진다
+  - DB에 기록이 많은 미션일수록 Maestro MCP 대비 배율이 1.3배에서 1.9배로 커졌다
+  - 스킬 문서의 규칙보다 CLI 출력이 다음 조작을 직접 알려 줄 때(TRAIL) 모델 행동이 바뀌었다
+  - '화면만 보고 채점하면 저장되지 않은 거짓 성공을 놓치므로, 앱의 저장 상태로 판정해야 한다'
 ---
 Maestro나 Google Artemis 사용해보셨나요?
 

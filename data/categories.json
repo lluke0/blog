@@ -14,18 +14,18 @@
       "id": "life",
       "name": "회고",
       "slug": "회고"
+    },
+    {
+      "id": "main_1792387120991",
+      "name": "기타",
+      "slug": "기타"
     }
   ],
   "subCategories": [
     {
-      "id": "sub_1759713206951",
-      "name": "Android",
-      "slug": "android"
-    },
-    {
-      "id": "sub_1759713217297",
-      "name": "Kotlin",
-      "slug": "kotlin"
+      "id": "sub_1792387128261",
+      "name": "번개",
+      "slug": "번개"
     }
   ]
 }
